@@ -11,15 +11,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
-import * as bok from '@eo4geo/bok-dataviz';
+import * as bok from '@eo4geo/find-in-bok-dataviz';
 
 import { BokService } from '../../services/bok.service';
 import { LoginComponent } from '../login/login.component';
 import { OtherService } from '../../services/other.service';
 import { PDFDocument } from 'pdf-lib';
 
-import * as pdfjs from 'pdfjs-dist/es5/build/pdf';
-import { pdfjsworker } from 'pdfjs-dist/es5/build/pdf.worker.entry';
+import * as pdfjs from 'pdfjs-dist/build/pdf';
+import { pdfjsworker } from 'pdfjs-dist/build/pdf.worker.entry';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-newannotation',
@@ -125,7 +126,12 @@ export class NewannotationComponent implements OnInit {
   }
 
   ngOnInit() {
-    bok.visualizeBOKData('#bubbles', '#textBoK');
+    const inputObject = {
+      svgId: '#bubbles',
+      textId: '#textBoK',
+      urls: environment.URL_ARRAY
+    };
+    bok.visualizeBOKData(inputObject);    
     this.observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
         if ((<any>mutation.target).children[1].innerText !== this.lastBoKTitle) {
