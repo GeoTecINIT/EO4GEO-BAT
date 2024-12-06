@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Organization, OrganizationService } from '../../services/organization.service';
 import { User, UserService } from '../../services/user.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-organization',
@@ -167,7 +168,7 @@ export class OrganizationComponent implements OnInit {
   }
 
   deleteUserFromOrg(user, org) {
-    if (org.admin.length > 1 && user) {
+    if (user && org && (org.admin.length > 1 || (org.admin.length == 1 && !org.admin.includes(user._id)))) {
       const indexToRemove = user.organizations.indexOf(org._id);
       if (indexToRemove !== -1) {
         user.organizations.splice(indexToRemove, 1);
@@ -332,8 +333,8 @@ export class OrganizationComponent implements OnInit {
         this.joinOrg.regular.push(this.user._id);
         this.organizationService.updateOrganizationWithId(this.joinOrg._id, this.joinOrg);
 
-
-        const userSub = this.userService.getUserById(this.user._id).subscribe(user => {
+        const userSub = this.userService.getUserById(this.user._id).pipe(take(1)).subscribe(user => {
+          console.log(user.name)
           if (user) {
             const u = new User(user);
             // Add org id to user
