@@ -333,8 +333,7 @@ export class OrganizationComponent implements OnInit {
         this.joinOrg.regular.push(this.user._id);
         this.organizationService.updateOrganizationWithId(this.joinOrg._id, this.joinOrg);
 
-        const userSub = this.userService.getUserById(this.user._id).pipe(take(1)).subscribe(user => {
-          console.log(user.name)
+        const userSub = this.userService.getUserById(this.user._id).subscribe(user => {
           if (user) {
             const u = new User(user);
             // Add org id to user
@@ -344,6 +343,7 @@ export class OrganizationComponent implements OnInit {
             u.organizations.push(this.joinOrg._id);
             this.userService.updateUserWithId(u._id, u);
           }
+          userSub.unsubscribe();
         });
         this.msgSavedJoin = 'You were added to the organization.';
 
