@@ -45,7 +45,7 @@
           </div>
         </div>
 
-        <div class="card-body" *ngIf="orgs; else loading">
+        <div class="card-body" *ngIf="orgs else loading">
           <div *ngFor="let o of orgs; index as i;">
             <div *ngIf="(o.admin.indexOf(user._id) > -1  || o.regular.indexOf(user._id) > -1);">
               <form>
@@ -257,10 +257,10 @@
               <!--  <hr> -->
             </div>
           </div>
-          <ng-template #loading>
-            <app-loading-indicator></app-loading-indicator>
-          </ng-template>
         </div>
+        <ng-template #loading>
+          <app-loading-indicator></app-loading-indicator>
+        </ng-template>
         <p class="text-primary text-center" [hidden]="!orgs || orgs.length> 0">
           <span class="badge badge-pill badge-success">N</span> You are not a member of any organization. Join an existing organization or create a new one to start!
         </p>
