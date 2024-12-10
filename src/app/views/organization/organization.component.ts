@@ -297,7 +297,7 @@ export class OrganizationComponent implements OnInit {
       }
     }
     // Update joinOrg
-    this.joinOrg = this.currentOrg;
+    if (this.joinOrg) this.joinOrg = this.currentOrg;
     // Update Firebase Organization
     this.organizationService.updateOrganizationWithId(this.orgs[orgIndex]._id, this.orgs[orgIndex]);
     const userSub = this.userService.getUserById(userId).subscribe(userDB => {
