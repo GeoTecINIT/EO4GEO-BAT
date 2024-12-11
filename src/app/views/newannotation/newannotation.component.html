@@ -37,11 +37,13 @@
                       *ngIf="!isAnonymous">
                 Login to save
               </button>
-              <button *ngIf="isAnonymous" type="submit" class="btn btn-pill btn-primary" (click)="saveAnnotation()" style="float: right;" routerLink="/list">
+              <button *ngIf="isAnonymous && userOrgs.length > 0" type="submit" class="btn btn-pill btn-primary" (click)="saveAnnotation()" 
+                      style="float: right;" routerLink="/list" [disabled]="!this.model.url || !model.title || !saveOrg" 
+                      tooltip="Upload a pdf file, select an organization and add a title to save">
                 Save
               </button>
-              <button type="button" class="btn btn-pill btn-primary" tooltip="Download" style="float: right;"
-                      popoverTitle="Download pdf file" placement="top"  (click)="downloadFile()">
+              <button type="button" class="btn btn-pill btn-primary" tooltip="Upload a pdf file before downloading" style="float: right;"
+                      popoverTitle="Download pdf file" placement="top"  (click)="downloadFile()" [disabled]="!this.model.url">
                 <i class="fa fa-download fa-lg"></i> Download
               </button>
             </div>
@@ -242,13 +244,14 @@
         </div>
       </div>
         <div class="col-md-12 col-sm-12 text-right" style="margin-bottom: 15px;">
-          <button type="submit" class="btn btn-pill btn-primary" (click)="saveAnnotation()" routerLink="/list"
-                  *ngIf="isAnonymous">
-            Save
-          </button>
-          <button type="submit" class="btn btn-pill btn-primary" (click)="openModal()"
+          <button type="submit" class="btn btn-pill btn-primary" style="float: right;" (click)="openModal()"
                   *ngIf="!isAnonymous">
             Login to save
+          </button>
+          <button *ngIf="isAnonymous && userOrgs.length > 0" type="submit" class="btn btn-pill btn-primary" (click)="saveAnnotation()" 
+                  style="float: right;" routerLink="/list" [disabled]="!this.model.url || !model.title || !saveOrg" 
+                  tooltip="Upload a pdf file, select an organization and add a title to save">
+            Save
           </button>
         </div>
       </div>

@@ -119,7 +119,7 @@ export class NewannotationComponent implements OnInit {
                 }
               });
             });
-          }
+          } else this.isAnonymous = true;
         });
       }
     });
